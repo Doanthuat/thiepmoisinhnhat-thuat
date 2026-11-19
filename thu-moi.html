@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thư Mời – Year End Party 2024</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold-light: #e8c97a;
+      --gold: #c9a84c;
+      --gold-dark: #a07830;
+      --green-dark: #1e3a2f;
+      --green-mid: #2d5a3d;
+      --cream: #fdf8ee;
+      --warm-bg: #f5edd8;
+    }
+
+    body {
+      min-height: 100dvh;
+      background: radial-gradient(ellipse at 60% 0%, #f0e2b0 0%, #e8d49a 40%, #c9a84c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow: hidden;
+    }
+
+    /* ── Envelope wrapper ─────────────────────── */
+    .envelope-scene {
+      position: relative;
+      width: 360px;
+      perspective: 900px;
+    }
+
+    /* Envelope body */
+    .envelope {
+      position: relative;
+      width: 360px;
+      height: 220px;
+      background: linear-gradient(145deg, #e8d49a 0%, #d4b870 50%, #c9a84c 100%);
+      border-radius: 4px 4px 10px 10px;
+      box-shadow: 0 20px 60px rgba(100, 70, 20, 0.45), 0 4px 16px rgba(100, 70, 20, 0.2);
+      overflow: visible;
+      cursor: pointer;
+    }
+
+    /* Envelope inner shadow */
+    .envelope::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 4px 4px 10px 10px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* Side triangles */
+    .envelope-left,
+    .envelope-right {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+    .envelope-left {
+      left: 0;
+      border-style: solid;
+      border-width: 110px 0 110px 180px;
+      border-color: transparent transparent transparent rgba(100,70,20,0.18);
+    }
+    .envelope-right {
+      right: 0;
+      border-style: solid;
+      border-width: 110px 180px 110px 0;
+      border-color: transparent rgba(100,70,20,0.18) transparent transparent;
+    }
+
+    /* Bottom flap */
+    .envelope-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 110px;
+      pointer-events: none;
+      background: linear-gradient(to top, rgba(100,70,20,0.12), transparent);
+      clip-path: polygon(0 100%, 50% 0%, 100% 100%);
+    }
+
+    /* Envelope flap (top lid) */
+    .envelope-flap {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 110px;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+    }
+    .envelope-flap-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(165deg, #e2cc88 0%, #c9a84c 70%, #b8963a 100%);
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      border-radius: 4px 4px 0 0;
+    }
+    .envelope-flap-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, transparent 60%);
+    }
+
+    /* Wax seal */
+    .wax-seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 20%);
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #8b2020, #5a1010);
+      box-shadow: 0 4px 14px rgba(90,16,16,0.5), inset 0 1px 3px rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,220,180,0.9);
+      font-family: 'Great Vibes', cursive;
+      font-size: 22px;
+      letter-spacing: -1px;
+      z-index: 15;
+      transition: transform 0.3s;
+    }
+
+    /* ── Card (letter inside) ─────────────────── */
+    .lovegift-card {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 320px;
+      min-height: 480px;
+      background: linear-gradient(165deg, #fffdf5 0%, #fdf8ee 60%, #f9f2e0 100%);
+      border-radius: 3px 3px 8px 8px;
+      box-shadow: 0 2px 8px rgba(80,60,20,0.08), 0 24px 60px rgba(80,60,20,0.22);
+      transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+      transform-origin: bottom center;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    /* Gold gradient band top */
+    .lovegift-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    }
+
+    /* Decorative watercolor tint */
+    .card-bg-deco {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 40% at 80% 10%, rgba(201,168,76,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 30% at 10% 80%, rgba(201,168,76,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      padding: 32px 28px 36px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    /* Title "Thư Mời" */
+    .card-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--green-dark);
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    /* Company subtitle */
+    .card-subtitle {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 12px;
+      font-weight: 400;
+      font-style: italic;
+      color: #5a7a60;
+      letter-spacing: 0.03em;
+      margin-bottom: 20px;
+    }
+
+    /* Divider line */
+    .card-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto 20px;
+      width: 85%;
+    }
+    .card-divider::before,
+    .card-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .card-divider-icon {
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    /* "Year End" script */
+    .card-event-script {
+      font-family: 'Great Vibes', cursive;
+      font-size: 54px;
+      color: var(--green-dark);
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    /* "Party 2024" */
+    .card-event-sub {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--green-mid);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    /* Detail section */
+    .card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .detail-block {
+      text-align: center;
+    }
+    .detail-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: #7a8c7a;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .detail-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--green-dark);
+      letter-spacing: 0.03em;
+      line-height: 1.25;
+    }
+    .detail-value-sm {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--green-dark);
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+    }
+    .detail-value-bold {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    /* Venue block */
+    .detail-venue {
+      font-size: 13.5px;
+      font-style: italic;
+      color: #5a7a60;
+      margin-top: 2px;
+    }
+
+    /* Gold ornament bottom */
+    .card-footer-ornament {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      font-size: 18px;
+      opacity: 0.7;
+    }
+    .card-footer-ornament span { letter-spacing: 4px; }
+
+    /* ── Open button ─────────────────── */
+    .open-btn {
+      position: absolute;
+      bottom: -64px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #2d5a3d, #1e3a2f);
+      color: #e8c97a;
+      border: none;
+      border-radius: 100px;
+      padding: 12px 32px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(30,58,47,0.4);
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .open-btn:hover {
+      background: linear-gradient(135deg, #3a7050, #2d5a3d);
+      box-shadow: 0 12px 32px rgba(30,58,47,0.5);
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    /* ── States ────────────────────────── */
+
+    /* Closed: card hidden inside envelope */
+    .scene-closed .lovegift-card {
+      transform: translateX(-50%) translateY(130px) scaleY(0.6);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .scene-closed .open-btn { opacity: 1; pointer-events: auto; }
+
+    /* Opening: flap opens first */
+    .scene-opening .envelope-flap {
+      transform: rotateX(-175deg);
+    }
+
+    /* Open: card rises up */
+    .scene-open .lovegift-card {
+      transform: translateX(-50%) translateY(-340px);
+      opacity: 1;
+    }
+    .scene-open .open-btn { opacity: 0; pointer-events: none; }
+    .scene-open .wax-seal { transform: translate(-50%, 20%) scale(0.7); opacity: 0.5; }
+
+    /* ── Particles ───────────────────── */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 50;
+    }
+    .particle {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      animation: fall linear forwards;
+      opacity: 0;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── Entry animation ───────────────── */
+    @keyframes float-in {
+      from { transform: translateY(30px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .envelope-scene {
+      animation: float-in 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+    }
+
+    /* Responsive */
+    @media (max-width: 400px) {
+      .envelope-scene { width: 320px; }
+      .envelope { width: 320px; height: 196px; }
+      .lovegift-card { width: 285px; }
+      .card-event-script { font-size: 46px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Particle container -->
+<div class="particles" id="particles"></div>
+
+<!-- Scene -->
+<div class="envelope-scene scene-closed" id="scene">
+
+  <!-- The card/letter (shown when opened) -->
+  <div class="lovegift-card" id="card">
+    <div class="card-bg-deco"></div>
+    <div class="card-inner">
+
+      <!-- Header -->
+      <div class="card-title">Thư Mời</div>
+      <div class="card-subtitle">Legacy Voyages &mdash; Công ty du lịch du thuyền</div>
+
+      <!-- Divider -->
+      <div class="card-divider"><span class="card-divider-icon">✦</span></div>
+
+      <!-- Event name -->
+      <div class="card-event-script">Year End</div>
+      <div class="card-event-sub">Party 2024</div>
+
+      <!-- Divider -->
+      <div class="card-divider"><span class="card-divider-icon">✦</span></div>
+
+      <!-- Details -->
+      <div class="card-details">
+
+        <!-- Time -->
+        <div class="detail-block">
+          <div class="detail-label">Thời Gian</div>
+          <div class="detail-value">18h00 – 22h00</div>
+        </div>
+
+        <!-- Day -->
+        <div class="detail-block">
+          <div class="detail-label">Thứ Năm</div>
+          <div class="detail-value">Ngày 16/01/2025</div>
+        </div>
+
+        <!-- Venue -->
+        <div class="detail-block">
+          <div class="detail-label">Địa điểm</div>
+          <div class="detail-value-bold">Tàu Iris, Cảng tàu khách Quốc tế Hạ Long</div>
+          <div class="detail-venue">Bãi Cháy, Hạ Long, Quảng Ninh</div>
+        </div>
+
+      </div>
+
+      <!-- Footer ornament -->
+      <div class="card-footer-ornament">
+        <span>⸻</span>❖<span>⸻</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- The envelope -->
+  <div class="envelope" id="envelope">
+    <!-- Flap (top lid) -->
+    <div class="envelope-flap" id="flap">
+      <div class="envelope-flap-inner"></div>
+    </div>
+
+    <!-- Side shadows -->
+    <div class="envelope-left"></div>
+    <div class="envelope-right"></div>
+    <div class="envelope-bottom"></div>
+
+    <!-- Wax seal -->
+    <div class="wax-seal" id="seal">LV</div>
+  </div>
+
+  <!-- CTA Button -->
+  <button class="open-btn" id="openBtn" onclick="openEnvelope()">
+    ✉&nbsp; Mở thư mời
+  </button>
+
+</div>
+
+<script>
+  function openEnvelope() {
+    const scene = document.getElementById('scene');
+    // Phase 1: open flap
+    scene.classList.remove('scene-closed');
+    scene.classList.add('scene-opening');
+
+    setTimeout(() => {
+      // Phase 2: card rises
+      scene.classList.add('scene-open');
+      spawnParticles();
+    }, 500);
+  }
+
+  function spawnParticles() {
+    const container = document.getElementById('particles');
+    const colors = ['#c9a84c','#e8c97a','#2d5a3d','#f0e2b0','#8b2020','#ffffff'];
+    for (let i = 0; i < 48; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 8 + 4;
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${-size}px;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        animation-duration: ${Math.random() * 2 + 1.5}s;
+        animation-delay: ${Math.random() * 0.8}s;
+      `;
+      container.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }
+  }
+
+  // Allow clicking the envelope/seal to open too
+  document.getElementById('envelope').addEventListener('click', openEnvelope);
+  document.getElementById('seal').addEventListener('click', openEnvelope);
+</script>
+</body>
+</html>
+

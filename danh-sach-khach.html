@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khách Mời & Tạo Đường Dẫn Thiệp</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #d4af37;
+      --accent-hover: #b8860b;
+      --success: #10b981;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 30px 16px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+    .config-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .config-row label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      background: #0b1120;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-gold {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-gold:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary {
+      background: #334155;
+      color: #fff;
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      background: rgba(0,0,0,0.15);
+    }
+    tr:hover {
+      background: rgba(255,255,255,0.02);
+    }
+    .link-text {
+      color: #38bdf8;
+      font-family: monospace;
+      word-break: break-all;
+    }
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--success);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Quản Lý Khách Mời & Đường Dẫn Thiệp Mời</h1>
+      <p class="subtitle">Mỗi khách mời sở hữu 1 đường dẫn riêng. Khi mở thiệp, tên khách mời sẽ tự động xuất hiện.</p>
+    </header>
+
+    <!-- Domain Settings -->
+    <div class="card">
+      <div class="card-title">🌐 Tùy Chỉnh Tên Miền / Địa Chỉ Web</div>
+      <div class="config-row">
+        <label for="domainInput" style="white-space: nowrap;">Tên miền website của bạn:</label>
+        <input type="text" id="domainInput" value="https://love-gift-special.netlify.app" placeholder="Ví dụ: https://my-birthday.netlify.app">
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted);">
+        * Đổi sang địa chỉ web thật của bạn để link tự động tạo chính xác khi gửi qua Zalo / Facebook / Tin nhắn.
+      </p>
+    </div>
+
+    <!-- Guest List Table -->
+    <div class="card">
+      <div class="card-title" style="justify-content: space-between;">
+        <span>📋 Danh Sách Khách Mời Hiện Có</span>
+        <button class="btn btn-secondary btn-sm" onclick="reloadGuests()">Làm mới danh sách</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50px;">STT</th>
+              <th style="width: 180px;">Tên Khách Mời</th>
+              <th>Đường Dẫn Mời (Link)</th>
+              <th style="width: 170px;">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="guestTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Batch Add Tool -->
+    <div class="card">
+      <div class="card-title">➕ Tạo Nhanh Danh Sách Nhiều Khách Mời Mới</div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px;">
+        Nhập hoặc dán danh sách tên khách mời (mỗi tên trên một dòng), hệ thống sẽ tự sinh mã không dấu và tạo file <code>guests.json</code> hoàn chỉnh:
+      </p>
+      <textarea id="bulkInput" rows="6" placeholder="Ví dụ:&#10;Đoàn Thuật&#10;Nguyễn Văn A&#10;Trần Thị B&#10;Anh Hoàng&#10;Chị Mai"></textarea>
+      
+      <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-gold" onclick="generateFromBulk()">⚡ Tạo Danh Sách Mới</button>
+        <button class="btn btn-secondary" onclick="downloadJSON()">💾 Tải File guests.json</button>
+        <button class="btn btn-secondary" onclick="copyJSON()">📋 Sao Chép Mã JSON</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Đã sao chép link vào bộ nhớ tạm!</div>
+
+  <script>
+    let currentGuests = [];
+
+    // Helper: Chuyển tiếng Việt có dấu thành slug không dấu
+    function toSlug(str) {
+      str = str.toLowerCase();
+      str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+      str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+      str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+      str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+      str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+      str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+      str = str.replace(/đ/g, "d");
+      str = str.replace(/[^a-z0-9\s-]/g, "");
+      str = str.replace(/\s+/g, "-");
+      return str.replace(/-+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function getBaseUrl() {
+      let val = document.getElementById("domainInput").value.trim();
+      return val.replace(/\/+$/, "");
+    }
+
+    async function loadGuests() {
+      try {
+        const res = await fetch('guests.json?t=' + Date.now());
+        if (res.ok) {
+          currentGuests = await res.json();
+          renderTable();
+          return;
+        }
+      } catch (e) {}
+
+      // Fallback sample data
+      currentGuests = [
+        { "id": "doan-thuat", "name": "Đoàn Thuật", "duong_dan": "?to=doan-thuat" },
+        { "id": "nguyen-van-a", "name": "Nguyễn Văn A", "duong_dan": "?to=nguyen-van-a" },
+        { "id": "tran-thi-b", "name": "Trần Thị B", "duong_dan": "?to=tran-thi-b" }
+      ];
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("guestTableBody");
+      tbody.innerHTML = "";
+      const base = getBaseUrl();
+
+      currentGuests.forEach((g, index) => {
+        const slug = g.id || g.slug || toSlug(g.name);
+        const query = g.duong_dan || ("?to=" + slug);
+        const fullUrl = base + "/" + (query.startsWith("?") ? query : "?" + query);
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td><strong>${g.name}</strong></td>
+          <td><span class="link-text">${fullUrl}</span></td>
+          <td class="actions-cell">
+            <button class="btn btn-gold btn-sm" onclick="copyLink('${fullUrl}')">📋 Chép Link</button>
+            <a class="btn btn-secondary btn-sm" href="${fullUrl}" target="_blank">👁️ Mở Thử</a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function copyLink(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        showToast("Đã sao chép link gửi cho khách!");
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    function reloadGuests() {
+      loadGuests();
+      showToast("Đã làm mới danh sách!");
+    }
+
+    document.getElementById("domainInput").addEventListener("input", () => {
+      renderTable();
+    });
+
+    function generateFromBulk() {
+      const text = document.getElementById("bulkInput").value.trim();
+      if (!text) {
+        alert("Vui lòng nhập danh sách tên khách mời!");
+        return;
+      }
+      const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+      const base = getBaseUrl();
+
+      currentGuests = lines.map(name => {
+        const id = toSlug(name) || "khach";
+        return {
+          id: id,
+          name: name,
+          duong_dan: "?to=" + id,
+          link: base + "/?to=" + id
+        };
+      });
+
+      renderTable();
+      showToast("Đã tạo danh sách gồm " + currentGuests.length + " khách mời!");
+    }
+
+    function downloadJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentGuests, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", "guests.json");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast("Đang tải file guests.json xuống máy!");
+    }
+
+    function copyJSON() {
+      const jsonStr = JSON.stringify(currentGuests, null, 2);
+      navigator.clipboard.writeText(jsonStr).then(() => {
+        showToast("Đã sao chép toàn bộ mã guests.json!");
+      });
+    }
+
+    // Auto load on init
+    loadGuests();
+  </script>
+</body>
+</html>
+

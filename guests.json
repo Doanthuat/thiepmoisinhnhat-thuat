@@ -1,0 +1,62 @@
+[
+  {
+    "id": "thu",
+    "name": "Thư",
+    "duong_dan": "?to=thu",
+    "link": "https://love-gift-special.netlify.app/?to=thu"
+  },
+  {
+    "id": "jay-nguyen",
+    "name": "Jay Nguyễn",
+    "duong_dan": "?to=jay-nguyen",
+    "link": "https://love-gift-special.netlify.app/?to=jay-nguyen"
+  },
+  {
+    "id": "truc",
+    "name": "Trúc",
+    "duong_dan": "?to=truc",
+    "link": "https://love-gift-special.netlify.app/?to=truc"
+  },
+  {
+    "id": "tho",
+    "name": "Thơ",
+    "duong_dan": "?to=tho",
+    "link": "https://love-gift-special.netlify.app/?to=tho"
+  },
+  {
+    "id": "phong",
+    "name": "Phong",
+    "duong_dan": "?to=phong",
+    "link": "https://love-gift-special.netlify.app/?to=phong"
+  },
+  {
+    "id": "nha",
+    "name": "Nhã",
+    "duong_dan": "?to=nha",
+    "link": "https://love-gift-special.netlify.app/?to=nha"
+  },
+  {
+    "id": "k-trong",
+    "name": "K.Trong",
+    "duong_dan": "?to=k-trong",
+    "link": "https://love-gift-special.netlify.app/?to=k-trong"
+  },
+  {
+    "id": "t-phuc",
+    "name": "T.Phuc",
+    "duong_dan": "?to=t-phuc",
+    "link": "https://love-gift-special.netlify.app/?to=t-phuc"
+  },
+  {
+    "id": "duy",
+    "name": "Duy",
+    "duong_dan": "?to=duy",
+    "link": "https://love-gift-special.netlify.app/?to=duy"
+  },
+  {
+    "id": "thinh",
+    "name": "Thịnh",
+    "duong_dan": "?to=thinh",
+    "link": "https://love-gift-special.netlify.app/?to=thinh"
+  }
+]

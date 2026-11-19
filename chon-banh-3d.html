@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kho Mẫu Bánh Sinh Nhật 3D - Lựa Chọn & Xem Thử</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --accent: #d4af37;
+      --accent-hover: #b8860b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px 16px 40px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    p.desc {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    .current-box {
+      background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.03));
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .current-title {
+      font-weight: 600;
+      color: #fff;
+    }
+    .current-id {
+      font-family: monospace;
+      color: #38bdf8;
+      background: rgba(0,0,0,0.25);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-gold {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-gold:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary {
+      background: #334155;
+      color: #fff;
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    .custom-input-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+    .custom-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    input[type="text"] {
+      flex: 1;
+      min-width: 240px;
+      background: #0b1120;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+    }
+    .cake-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .cake-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+    .cake-card.active {
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 20px rgba(212,175,55,0.25);
+    }
+    .preview-box {
+      width: 100%;
+      height: 230px;
+      background: #0b1120;
+      position: relative;
+    }
+    .preview-box iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .card-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .cake-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .cake-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .card-actions button, .card-actions a {
+      flex: 1;
+      font-size: 13px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(212,175,55,0.2);
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--success);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.25s ease;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>🎂 Kho Mẫu Bánh Sinh Nhật 3D</h1>
+      <p class="desc">Bấm <strong>"Áp Dụng Mẫu Này"</strong> để đổi bánh trên thiệp mời tức thì mà không cần chỉnh sửa mã nguồn!</p>
+    </header>
+
+    <!-- Current Active Model Banner -->
+    <div class="current-box">
+      <div>
+        <div class="current-title">Mẫu bánh 3D đang hiển thị trên thiệp:</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+          Mã UID: <span id="activeModelId" class="current-id">8d27a8930ad942238045596ff609724a</span>
+        </div>
+      </div>
+      <div>
+        <a href="/" target="_blank" class="btn btn-gold">👁️ Mở Xem Thiệp Mời</a>
+      </div>
+    </div>
+
+    <!-- Custom URL / UID Input -->
+    <div class="custom-input-card">
+      <div style="font-size: 15px; font-weight: 600; color: #fff;">🔗 Hoặc dán link / mã Sketchfab bất kỳ mà bạn thích:</div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+        Ví dụ: dán link dạng <code>https://sketchfab.com/3d-models/...-8d27a8930ad942238045596ff609724a</code> hoặc mã 32 ký tự.
+      </p>
+      <div class="custom-row">
+        <input type="text" id="customInput" placeholder="Dán link hoặc mã Sketchfab vào đây...">
+        <button class="btn btn-gold" onclick="applyCustom()">Áp Dụng Ngay</button>
+      </div>
+    </div>
+
+    <!-- Models Grid -->
+    <div class="grid" id="cakeGrid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Đã áp dụng mẫu bánh 3D mới!</div>
+
+  <script>
+    const CAKE_MODELS = [
+      {
+        id: "8d27a8930ad942238045596ff609724a",
+        name: "Bánh Pastel Hàn Quốc Dễ Thương",
+        tag: "ĐỀ XUẤT",
+        desc: "Phong cách 3D hoạt hình màu pastel ngọt ngào, cắm nến sinh nhật thắp sáng, hoa kem bơ xinh xắn, tải siêu nhẹ."
+      },
+      {
+        id: "0b5e74462cac4869b6cfb64c325b6d89",
+        name: "Bánh Kem Dâu Tây Nhật Bản",
+        tag: "TẢ THỰC",
+        desc: "Bánh bông lan kem tươi phủ dâu tây đỏ tươi mọng nước, nến sinh nhật lung linh ấm áp."
+      },
+      {
+        id: "170683a4e5c54b0e9e202064fb53f52a",
+        name: "Bánh Kẹo Ngọt & Macaron Lộng Lẫy",
+        tag: "TOP YÊU THÍCH",
+        desc: "Mẫu bánh sinh nhật được yêu thích hàng đầu Sketchfab với kẹo mút cầu vồng và bánh macaron rực rỡ."
+      },
+      {
+        id: "98deb842cd7f4b31a5e107848bc08cad",
+        name: "Bánh Sinh Nhật Sweet Pack #01",
+        tag: "CỔ ĐIỂN",
+        desc: "Bánh kem 2 tầng tone hồng dâu truyền thống, cắm nến vàng xung quanh viền bánh."
+      },
+      {
+        id: "29eb6a4e7bf8403fb05cc2495bfc2dd9",
+        name: "Bánh Kem Chocolate Sinh Nhật",
+        tag: "SANG TRỌNG",
+        desc: "Bánh kem phủ sốt sô-cô-la bóng, hoa quả tươi và ngọn nến sáng rực rỡ."
+      },
+      {
+        id: "87f446798bb544c6b0dca2504b1f9d50",
+        name: "Bánh Sinh Nhật Vie Dinh",
+        tag: "ĐƠN GIẢN",
+        desc: "Mẫu bánh sinh nhật 3D tròn truyền thống cắm nến ở giữa."
+      }
+    ];
+
+    function getActiveModel() {
+      return localStorage.getItem("selected_cake_id") || "8d27a8930ad942238045596ff609724a";
+    }
+
+    function renderGrid() {
+      const activeId = getActiveModel();
+      document.getElementById("activeModelId").innerText = activeId;
+      const grid = document.getElementById("cakeGrid");
+      grid.innerHTML = "";
+
+      CAKE_MODELS.forEach(m => {
+        const isActive = (m.id.toLowerCase() === activeId.toLowerCase());
+        const card = document.createElement("div");
+        card.className = "cake-card" + (isActive ? " active" : "");
+        
+        card.innerHTML = `
+          <div class="preview-box">
+            <iframe title="${m.name}" 
+                    allow="autoplay; fullscreen; xr-spatial-tracking" 
+                    src="https://sketchfab.com/models/${m.id}/embed?autostart=0&transparent=1&ui_controls=0&ui_infos=0&ui_watermark=0&ui_hint=0&autospin=0.2">
+            </iframe>
+          </div>
+          <div class="card-body">
+            <div>
+              <span class="badge">${m.tag}</span>
+              <div class="cake-title">${m.name}</div>
+              <div class="cake-desc">${m.desc}</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn ${isActive ? 'btn-secondary' : 'btn-gold'}" onclick="selectCake('${m.id}')">
+                ${isActive ? '✓ Đang Dùng' : '⭐ Chọn Mẫu Này'}
+              </button>
+              <a href="/?cake=${m.id}" target="_blank" class="btn btn-secondary">👁️ Thử</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function selectCake(id) {
+      localStorage.setItem("selected_cake_id", id);
+      renderGrid();
+      showToast("Đã đổi sang mẫu bánh mới thành công!");
+    }
+
+    function extractUID(input) {
+      input = input.trim();
+      const match = input.match(/[a-f0-9]{32}/i);
+      return match ? match[0] : input;
+    }
+
+    function applyCustom() {
+      const val = document.getElementById("customInput").value;
+      const uid = extractUID(val);
+      if (!uid || uid.length < 20) {
+        alert("Vui lòng nhập link hoặc mã UID hợp lệ từ Sketchfab!");
+        return;
+      }
+      selectCake(uid);
+      document.getElementById("customInput").value = "";
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
+
