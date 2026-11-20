@@ -58,5 +58,17 @@
     "name": "Thịnh",
     "duong_dan": "?to=thinh",
     "link": "https://love-gift-special.netlify.app/?to=thinh"
+  },
+  {
+    "id": "vang",
+    "name": "Vàng",
+    "duong_dan": "?to=vang",
+    "link": "https://love-gift-special.netlify.app/?to=vang"
+  },
+  {
+    "id": "vu",
+    "name": "Vũ",
+    "duong_dan": "?to=vu",
+    "link": "https://love-gift-special.netlify.app/?to=vu"
   }
 ]
